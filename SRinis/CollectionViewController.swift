@@ -32,10 +32,10 @@ class CollectionViewController: UIViewController,UICollectionViewDataSource,UICo
         print("\(pageControl.currentPage)")
         print("\(pageControl.numberOfPages)")
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
-               imageView.isUserInteractionEnabled = true
-               imageView.addGestureRecognizer(tapGesture)
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(tapGesture)
         imageView.image = UIImage(named: "CellSwitch_Card")
-
+        
         if let backgroundImage = UIImage(named: "Background_Image") {
             view.backgroundColor = UIColor(patternImage: backgroundImage)
         }
@@ -46,19 +46,19 @@ class CollectionViewController: UIViewController,UICollectionViewDataSource,UICo
     var isToggled = false
     // MARK: - 이미지 뷰 터치 이벤트
     @objc func imageTapped(_ sender: UITapGestureRecognizer) {
-            if isToggled {
-                imageView.image = UIImage(named: "CellSwitch_Card")
-                collectionView.isHidden = false
-                collectionView2.isHidden = true
-                pageControl.isHidden = false
-            } else {
-                imageView.image = UIImage(named: "CellSwitch_List")
-                collectionView.isHidden = true
-                collectionView2.isHidden = false
-                pageControl.isHidden = true
-            }
-            isToggled = !isToggled
+        if isToggled {
+            imageView.image = UIImage(named: "CellSwitch_Card")
+            collectionView.isHidden = false
+            collectionView2.isHidden = true
+            pageControl.isHidden = false
+        } else {
+            imageView.image = UIImage(named: "CellSwitch_List")
+            collectionView.isHidden = true
+            collectionView2.isHidden = false
+            pageControl.isHidden = true
         }
+        isToggled = !isToggled
+    }
     // MARK: - CollectionView Index Count
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return members.count
@@ -67,20 +67,20 @@ class CollectionViewController: UIViewController,UICollectionViewDataSource,UICo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // 셀 분기처리
         if collectionView == self.collectionView {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
-                let member = members[indexPath.item]
-                cell.imageView.image = images[indexPath.item]
-                cell.titleLabel.text = member.name
-                cell.descriptionLabel.text = member.shortDescription
-                return cell
-            } else {
-                let cell2 = collectionView.dequeueReusableCell(withReuseIdentifier: "ListCollectionViewCell", for: indexPath) as! ListCollectionViewCell
-                let member = members[indexPath.item]
-                cell2.imageView.image = listImages[indexPath.item]
-                cell2.titleLabel.text = member.name
-                cell2.descriptionLabel.text = member.shortDescription
-                return cell2
-            }
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
+            let member = members[indexPath.item]
+            cell.imageView.image = images[indexPath.item]
+            cell.titleLabel.text = member.name
+            cell.descriptionLabel.text = member.shortDescription
+            return cell
+        } else {
+            let cell2 = collectionView.dequeueReusableCell(withReuseIdentifier: "ListCollectionViewCell", for: indexPath) as! ListCollectionViewCell
+            let member = members[indexPath.item]
+            cell2.imageView.image = listImages[indexPath.item]
+            cell2.titleLabel.text = member.name
+            cell2.descriptionLabel.text = member.shortDescription
+            return cell2
+        }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == self.collectionView {
@@ -102,7 +102,7 @@ class CollectionViewController: UIViewController,UICollectionViewDataSource,UICo
         // SwiftUI 뷰로 멤버 데이터를 전달
         let detailView = MemberDetailView(member: selectedMember)
         let hostingController = UIHostingController(rootView: detailView)
-
+        
         navigationController?.pushViewController(hostingController, animated: true)
     }
 }
